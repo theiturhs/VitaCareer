@@ -38,7 +38,7 @@ python manage.py startapp home
 To access the admin:
 ```
 python manage.py createsuperuser
-``
+```
 
 ### Home Page Details
 
