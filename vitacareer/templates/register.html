@@ -1,0 +1,14 @@
+<form action="/" method = "post">
+    {% csrf_token %}
+
+    username: {{ form.username }} <br>
+    password: {{ form.password1 }} <br>
+    Confirm password: {{ form.password2 }} <br>
+    first_name: {{form.first_name}} <br>
+    last_name: {{ form.last_name }} <br>
+    email: {{ form.email }} <br>
+    contact: {{ form.contact }} <br>
+    role: {{ form.role }} <br>
+
+    <button type="submit" class="btn btn-info col-md-12">Submit</button>
+</form>
