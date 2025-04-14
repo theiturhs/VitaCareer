@@ -1,9 +1,11 @@
-from django.shortcuts import render, HttpResponse
-from .form import CustomUserForm
+from django.shortcuts import render, HttpResponse, redirect
+from .form import CustomUserForm, BasicUserDetailsForm
 from django.http import JsonResponse
-from .models import CustomUser
+from .models import CustomUser, BasicUserDetails
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
-def main(request):
+def register(request):
     if request.method == 'POST':
         form = CustomUserForm(request.POST)
         if form.is_valid():
@@ -15,6 +17,32 @@ def main(request):
         form = CustomUserForm()
     
     return render(request, 'register.html', {'form': form})
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            return redirect('dashboard')
+    return render(request, 'login.html')
+
+@login_required
+def user_details(request):
+    if request.method == 'POST':
+        user = request.user
+        form = BasicUserDetailsForm(request.POST)
+        if form.is_valid():
+            form.instance.user = user
+            form.save()
+            return HttpResponse(list(BasicUserDetails.objects.all().values()))
+    else:
+        form = BasicUserDetailsForm()
+    return render(request, 'user_details.html', {'form': form})
+    # user = request.user
+    # return HttpResponse(CustomUser.objects.get(username=user.username).contact)
 
 # debugging
 def users_list(request):

@@ -1,0 +1,8 @@
+<form action="/login" method = "post">
+    {% csrf_token %}
+
+    <input type="text" name="username" placeholder="Username" class="col-md-12 my-3" style="height: 40px">
+    <input type="password" name="password" placeholder="Password" class="col-md-12 my-3" style="height: 40px">
+
+    <button type="submit" class="btn btn-info col-md-12">Login</button>
+</form>
